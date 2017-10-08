@@ -1,6 +1,10 @@
 import { Schema } from 'mongoose';
+
 import * as crypto from 'crypto';
 import * as jwt from 'jsonwebtoken';
+
+// TODO: Make sure to pass the secret
+const SIGNING_SECRET = process.env.JWT_SECRET || 'MY_SECRET';
 
 export const userSchema = new Schema({
     email: {
@@ -36,7 +40,7 @@ userSchema.methods.generateJwt = () => {
         email: this.email,
         name: this.name,
         exp: expiry.getTime() / 1000,
-    }), 'MY_SECRET');
+    }), SIGNING_SECRET);
 };
 
 export const messageSchema = new Schema({
